@@ -3,9 +3,11 @@ node_modules/
 dist/
 .husky/
 .vscode/
+scripts/
 
 # Environment
 .env*
+env-files/
 
 # Versioning and metadata
 .git
