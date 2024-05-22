@@ -21,10 +21,8 @@
     "lint:src": "eslint src/**/*.ts",
     "lint:test": "eslint test/**/*.ts",
     "gen:key": "node -r ts-node/register ./scripts/generateKeys.ts",
-    "enc:dev": "bash ./scripts/encrypt.sh nest dev",
-    "enc:prd": "bash ./scripts/encrypt.sh nest prd",
-    "dec:dev": "bash ./scripts/decrypt.sh nest dev",
-    "dec:prd": "bash ./scripts/decrypt.sh nest prd",
+    "enc": "bash ./scripts/encrypt.sh",
+    "dec": "bash ./scripts/decrypt.sh",
     "prepare": "husky install"
   },
   "dependencies": {

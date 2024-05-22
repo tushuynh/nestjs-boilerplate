@@ -45,13 +45,13 @@ $ vlt config
 Encryption example
 
 ```bash
-$ yarn enc:dev
+$ yarn enc {PROJECT_NAME} {ENV}
 ```
 
 Decryption example
 
 ```bash
-$ yarn dec:dev
+$ yarn dec {PROJECT_NAME} {ENV}
 ```
 
 ## Running the app
