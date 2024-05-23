@@ -7,7 +7,7 @@ scripts/
 
 # Environment
 .env*
-env-files/
+env/
 
 # Versioning and metadata
 .git

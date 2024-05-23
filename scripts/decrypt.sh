@@ -9,5 +9,5 @@ openssl enc -d -aes-256-cbc \
   -pbkdf2 -iter 1000000 \
   -md sha512 -salt \
   -pass pass:$PRIVATE_KEY \
-  -in env-files/.env.$APP_ENV.enc \
-  -out env-files/.env.$APP_ENV
+  -in env/.env.$APP_ENV.enc \
+  -out env/.env.$APP_ENV
