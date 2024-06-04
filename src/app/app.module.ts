@@ -1,15 +1,9 @@
+import { CommonModule } from '@common/common.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import configs from 'src/configs';
+import { RouterModule } from 'src/router/router.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: configs,
-      envFilePath: ['.env'],
-    }),
-  ],
+  imports: [CommonModule, RouterModule],
   controllers: [],
   providers: [],
 })

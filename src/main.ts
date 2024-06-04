@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import swaggerInit from './swagger';
+import { ResponseInterceptor } from '@common/response/interceptors/response.interceptor';
 
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
   const logger = new Logger();
 
   app.setGlobalPrefix(globalPrefix);
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   if (versionEnable) {
     app.enableVersioning({
@@ -31,6 +33,6 @@ async function bootstrap() {
 
   await app.listen(port, 'localhost');
 
-  logger.log(`Server running on http://localhost:${port}`);
+  logger.log(`Server running on http://localhost:${port}`, 'NestApplication');
 }
 bootstrap();
