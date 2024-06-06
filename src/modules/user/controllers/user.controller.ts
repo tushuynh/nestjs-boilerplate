@@ -8,10 +8,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { UserDefaultDto } from '../dtos/user.default.dto';
 import { TransformDataInterceptor } from '@common/response/interceptors/transform.data.interceptor';
-import { ApiResponse } from '@common/response/decorators/response.decorator';
+import { ResponseDoc } from '@common/response/decorators/response.decorator';
 
 @ApiTags('Users')
 @Controller({
@@ -21,19 +21,15 @@ import { ApiResponse } from '@common/response/decorators/response.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ApiResponse(200, UserDefaultDto, true)
+  @ResponseDoc({ data: UserDefaultDto, isArray: true })
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(new TransformDataInterceptor(UserDefaultDto))
-  @Get()
+  @Get('/')
   async findAll() {
     return this.userService.findAll();
   }
 
-  @ApiParam({
-    name: 'id',
-    example: '665ead953280799183b1a9d0',
-  })
-  @ApiResponse(200, UserDefaultDto)
+  @ResponseDoc({ data: UserDefaultDto })
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(new TransformDataInterceptor(UserDefaultDto))
   @Get('/:id')
