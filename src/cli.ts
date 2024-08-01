@@ -8,7 +8,7 @@ async function bootstrap() {
     logger: ['error'],
   });
 
-  const logger = new Logger();
+  const logger = new Logger(MigrationModule.name);
 
   try {
     await app.select(CommandModule).get(CommandService).exec();

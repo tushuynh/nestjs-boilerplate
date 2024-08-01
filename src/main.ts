@@ -11,15 +11,26 @@ async function bootstrap() {
   const port = configService.get<number>('port');
   const globalPrefix = configService.get<string>('app.globalPrefix');
 
+  // cors
+  const allowMethods = configService.get<string[]>('request.cors.allowMethod');
+  const allowOrigins = configService.get<string | string[]>(
+    'request.cors.allowOrigin'
+  );
+
   // Version
   const versionEnable = configService.get<string>('app.versioning.enable');
   const versionPrefix = configService.get<string>('app.versioning.prefix');
   const version = configService.get<string>('app.versioning.version');
 
-  const logger = new Logger();
+  const logger = new Logger(AppModule.name);
 
-  app.setGlobalPrefix(globalPrefix);
+  app.enableCors({
+    methods: allowMethods,
+    origin: allowOrigins,
+    credentials: true,
+  });
   app.useGlobalInterceptors(new ResponseInterceptor());
+  app.setGlobalPrefix(globalPrefix);
 
   if (versionEnable) {
     app.enableVersioning({
@@ -33,6 +44,6 @@ async function bootstrap() {
 
   await app.listen(port, 'localhost');
 
-  logger.log(`Server running on http://localhost:${port}`, 'NestApplication');
+  logger.log(`Server running on http://localhost:${port}`);
 }
 bootstrap();
