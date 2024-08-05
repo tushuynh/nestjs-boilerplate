@@ -11,12 +11,6 @@ async function bootstrap() {
   const port = configService.get<number>('port');
   const globalPrefix = configService.get<string>('app.globalPrefix');
 
-  // cors
-  const allowMethods = configService.get<string[]>('request.cors.allowMethod');
-  const allowOrigins = configService.get<string | string[]>(
-    'request.cors.allowOrigin'
-  );
-
   // Version
   const versionEnable = configService.get<string>('app.versioning.enable');
   const versionPrefix = configService.get<string>('app.versioning.prefix');
@@ -24,11 +18,6 @@ async function bootstrap() {
 
   const logger = new Logger(AppModule.name);
 
-  app.enableCors({
-    methods: allowMethods,
-    origin: allowOrigins,
-    credentials: true,
-  });
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.setGlobalPrefix(globalPrefix);
 
