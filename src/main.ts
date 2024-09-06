@@ -18,6 +18,7 @@ async function bootstrap() {
 
   const logger = new Logger(AppModule.name);
 
+  app.useBodyParser('json', { limit: 50 });
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.setGlobalPrefix(globalPrefix);
 
