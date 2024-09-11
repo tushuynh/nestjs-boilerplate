@@ -4,6 +4,7 @@ import { NestApplication, NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import swaggerInit from './swagger';
 import { ResponseInterceptor } from '@common/response/interceptors/response.interceptor';
+import { ResponseSanitizationInterceptor } from '@common/response/interceptors/responseSanitization.interceptor';
 
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
@@ -19,7 +20,10 @@ async function bootstrap() {
   const logger = new Logger(AppModule.name);
 
   app.useBodyParser('json', { limit: 50 });
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(
+    new ResponseSanitizationInterceptor(),
+    new ResponseInterceptor()
+  );
   app.setGlobalPrefix(globalPrefix);
 
   if (versionEnable) {
