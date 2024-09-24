@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { UserService } from '@modules/user/services/user.service';
 import { Injectable } from '@nestjs/common';
 import { Command } from 'nestjs-command';
@@ -12,21 +13,33 @@ export class MigrationUserSeed {
   })
   async seeds(): Promise<void> {
     const password = '123123';
+    const generateCount = 10000;
+    const createUserCommands = [];
 
-    const user1 = this.userService.create({
+    const admin = {
       name: 'admin',
       email: 'admin@gmail.com',
       password,
-    });
+    };
 
-    const user2 = this.userService.create({
+    const user = {
       name: 'user',
       email: 'user@gmail.com',
       password,
-    });
+    };
+
+    createUserCommands.push(admin, user);
+
+    for (let i = 0; i < generateCount; i++) {
+      createUserCommands.push({
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+        password,
+      });
+    }
 
     try {
-      await Promise.all([user1, user2]);
+      await this.userService.createMany(createUserCommands);
     } catch (error: any) {
       throw new Error(error?.message);
     }

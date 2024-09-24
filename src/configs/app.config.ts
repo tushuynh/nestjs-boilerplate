@@ -9,7 +9,7 @@ export default registerAs(
     port: parseInt(process.env.PORT) || 3000,
 
     versioning: {
-      enable: process.env.API_VERSIONING_ENABLE === 'true' ?? false,
+      enable: process.env.API_VERSIONING_ENABLE === 'true' || false,
       prefix: 'v',
       version: process.env.API_VERSION ?? '1',
     },

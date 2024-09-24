@@ -21,6 +21,10 @@ export class UserService implements IUserService {
     return this.prismaService.user.create({ data: user });
   }
 
+  async createMany(users: UserCreateDto[]) {
+    return this.prismaService.user.createMany({ data: users });
+  }
+
   async deleteAll() {
     await this.prismaService.user.deleteMany();
   }
