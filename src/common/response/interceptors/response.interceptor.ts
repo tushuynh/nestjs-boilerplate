@@ -23,6 +23,8 @@ export class ResponseInterceptor<T>
       map((data) => {
         return {
           statusCode: response.statusCode,
+          success: response.statusCode >= 200 && response.statusCode < 300,
+          message: response.statusMessage || 'Request processed successfully',
           data,
         };
       })

@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 import swaggerInit from './swagger';
 import { ResponseInterceptor } from '@common/response/interceptors/response.interceptor';
 import { ResponseSanitizationInterceptor } from '@common/response/interceptors/responseSanitization.interceptor';
+import { HttpExceptionFilter } from '@common/response/filters/httpException.filter';
 
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap() {
     new ResponseSanitizationInterceptor(),
     new ResponseInterceptor()
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix(globalPrefix);
 
   if (versionEnable) {
