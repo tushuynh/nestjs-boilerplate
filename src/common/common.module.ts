@@ -1,14 +1,13 @@
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module } from '@nestjs/common';
+import { CacheStore, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import * as redisStore from 'cache-manager-redis-store';
-import type { RedisClientOptions } from 'redis';
 import configs from 'src/configs';
 import { PrismaModule } from './prisma/prisma.module';
 import { RequestModule } from './request/request.module';
 import { HttpCacheInterceptor } from './response/interceptors/httpCache.interceptor';
 import { ResponseModule } from './response/response.module';
+import { redisStore } from 'cache-manager-redis-store';
 
 @Module({
   imports: [
@@ -18,14 +17,14 @@ import { ResponseModule } from './response/response.module';
       cache: true,
       envFilePath: ['.env'],
     }),
-    CacheModule.registerAsync<RedisClientOptions>({
+    CacheModule.registerAsync({
       isGlobal: true,
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        store: redisStore,
-        url: configService.get('cache.redisUrl'),
-        ttl: configService.get('cache.ttl'),
-        max: configService.get('cache.max'),
+      useFactory: async (configService: ConfigService) => ({
+        store: (await redisStore({
+          url: configService.get('cache.redisUrl'),
+          ttl: configService.get('cache.ttl'),
+        })) as unknown as CacheStore,
       }),
     }),
     PrismaModule,
