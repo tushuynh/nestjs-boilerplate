@@ -5,7 +5,6 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ApiTags } from '@nestjs/swagger';
