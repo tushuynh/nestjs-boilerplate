@@ -7,7 +7,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { RequestModule } from './request/request.module';
 import { HttpCacheInterceptor } from './response/interceptors/httpCache.interceptor';
 import { ResponseModule } from './response/response.module';
-import { redisStore } from 'cache-manager-redis-store';
+import Keyv from 'keyv';
+import KeyvRedis from '@keyv/redis';
 
 @Module({
   imports: [
@@ -21,10 +22,10 @@ import { redisStore } from 'cache-manager-redis-store';
       isGlobal: true,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        store: (await redisStore({
-          url: configService.get('cache.redisUrl'),
+        store: new Keyv({
+          store: new KeyvRedis(configService.get('cache.redisUrl')),
           ttl: configService.get('cache.ttl'),
-        })) as unknown as CacheStore,
+        }) as unknown as CacheStore,
       }),
     }),
     PrismaModule,
