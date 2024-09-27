@@ -1,15 +1,18 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
   Param,
+  Post,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ApiTags } from '@nestjs/swagger';
 import { UserDefaultDto } from '../dtos/user.default.dto';
 import { ResponseDoc } from '@common/response/decorators/response.decorator';
+import { UserCreateDto } from '../dtos/user.create.dto';
 
 @ApiTags('Users')
 @Controller({
@@ -36,5 +39,12 @@ export class UserController {
     }
 
     return user;
+  }
+
+  @ResponseDoc({ data: UserDefaultDto })
+  @HttpCode(HttpStatus.CREATED)
+  @Post('/')
+  async create(@Body() user: UserCreateDto) {
+    return this.userService.create(user);
   }
 }

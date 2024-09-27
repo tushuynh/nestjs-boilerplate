@@ -15,12 +15,11 @@ async function bootstrap() {
 
   // Version
   const versionEnable = configService.get<string>('app.versioning.enable');
-  const versionPrefix = configService.get<string>('app.versioning.prefix');
   const version = configService.get<string>('app.versioning.version');
 
   const logger = new Logger(AppModule.name);
 
-  app.useBodyParser('json', { limit: 50 });
+  app.useBodyParser('json', { limit: '50mb' });
   app.useGlobalInterceptors(
     new ResponseSanitizationInterceptor(),
     new ResponseInterceptor()
@@ -32,7 +31,6 @@ async function bootstrap() {
     app.enableVersioning({
       type: VersioningType.URI,
       defaultVersion: version,
-      prefix: versionPrefix,
     });
   }
 

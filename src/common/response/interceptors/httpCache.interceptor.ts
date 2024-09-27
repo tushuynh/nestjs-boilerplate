@@ -29,6 +29,7 @@ export class HttpCacheInterceptor extends CacheInterceptor {
       return `${cacheKey}-${request._parsedUrl.query}`;
     }
 
+    // httpAdapter.getRequestUrl(request)
     return super.trackBy(context);
   }
 }
